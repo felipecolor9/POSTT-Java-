@@ -16,7 +16,7 @@ public class PostitDAO implements DAO<Postit> {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("INSERT INTO postits (id_user, nome, descricao) values (?,?,?)");
+			stm = con.prepareStatement("INSERT INTO postits (fk_id_usuario, postit_nome, postit_conteudo) values (?,?,?)");
 			stm.setInt(1, p.getIdUser());
 			stm.setString(2, p.getName());
 			stm.setString(3, p.getDesc());
@@ -35,7 +35,7 @@ public class PostitDAO implements DAO<Postit> {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("UPDATE postit SET nome=?, descricao=?");
+			stm = con.prepareStatement("UPDATE postit SET postit_nome=?, postit_conteudo=?");
 			stm.setString(1, p.getName());
 			stm.setString(2, p.getDesc());
 			stm.executeUpdate();
@@ -55,7 +55,7 @@ public class PostitDAO implements DAO<Postit> {
 
 		try {
 			stm = con.prepareStatement("DELETE FROM WHERE id=?");
-			stm.setInt(1, p.getIdPostit());
+			stm.setInt(1, p.getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro interno do banco durante exclusão: ", e);
@@ -79,10 +79,10 @@ public class PostitDAO implements DAO<Postit> {
 
 			while (rs.next()) {
 				Postit p = new Postit();
-				p.setIdPostit(rs.getInt("id"));
-				p.setIdUser(rs.getInt("id_user"));
-				p.setName(rs.getString("nome"));
-				p.setDesc(rs.getString("descricao"));
+				p.setId(rs.getInt("id"));
+				p.setIdUser(rs.getInt("fk_id_usuario"));
+				p.setName(rs.getString("postit_nome"));
+				p.setDesc(rs.getString("postit_conteudo"));
 				postList.add(p);
 			}
 
@@ -102,19 +102,48 @@ public class PostitDAO implements DAO<Postit> {
 		Postit p = new Postit();
 
 		try {
-			stm = con.prepareStatement("SELECT FROM WHERE id=?");
+			stm = con.prepareStatement("SELECT FROM postits WHERE id=?");
 			stm.setInt(1, id);
 			rs = stm.executeQuery();
-			p.setIdPostit(rs.getInt("id"));
-			p.setIdUser(rs.getInt("id_user"));
-			p.setName(rs.getString("nome"));
-			p.setDesc(rs.getString("descricao"));
-
+			p.setId(rs.getInt("id"));
+			p.setIdUser(rs.getInt("fk_id_usuario"));
+			p.setName(rs.getString("postit_nome"));
+			p.setDesc(rs.getString("postit_conteudo"));
+			
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro interno do banco durante leitura da tabela: ", e);
 		} finally {
 			ConnectionFactory.closeConnection(con, stm, rs);
 		}
 		return p;
+	}
+
+	public ArrayList<Postit> findbyUserID(int id) {
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+		ArrayList<Postit> list = new ArrayList<>();
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM postits WHERE fk_id_usuario=?");
+			stm.setInt(1, id);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				
+				Postit p = new Postit();
+				p.setId(rs.getInt("id"));
+				p.setIdUser(rs.getInt("fk_id_usuario"));
+				p.setName(rs.getString("postit_nome"));
+				p.setDesc(rs.getString("postit_conteudo"));
+				list.add(p);
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro interno do banco durante leitura da tabela: ", e);
+		} finally {
+			ConnectionFactory.closeConnection(con, stm, rs);
+		}
+		return list;
 	}
 }

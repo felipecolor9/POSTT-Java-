@@ -25,14 +25,14 @@
                 <input type="text" name="userNameLogin"><br>
                 <label for="POST-user">Senha:</label><br>
                 <input type="password" name="userPassLogin"><br><br>
-                <button type="submit">LOGIN</button>
+                <button type="submit">Login</button>
           	</form>
           
             <p style="color:red;"><b>Usuario ou sistema invalidos</b><br>Favor, tentar novamente.</p>
        </div>
     
     <div class="box">
-      <p> <b>Não tem um cadastro?</b> <br> Registre-se aqui </p>
+       <p> <b>Não tem um cadastro? <a href="Register.jsp">Registre-se aqui</a></b></p>
     </div>
   </section>
 

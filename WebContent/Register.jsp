@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import = "br.com.felipe.projeto.controller.UserController" %>
-<%
-	String msg = (String) session.getAttribute("msg");
-	String regFb = (String) session.getAttribute("regFb");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,60 +10,39 @@
 <title>Postit Online</title>
 
 <link rel="stylesheet" href="css/Style.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 </head>
 
 <body>
-
 	<div id="title_page_index">Adicione Postits</div>
 
 	<section class=container>
 		<div class=box>
-			<h1>ACESSAR SISTEMA</h1>
-		
-			<%
-				if (msg != null) {
-					regFb="";
-			%>
-			<p style='color: red;'>
-				<%=msg%>
-			</p>
-			<%
-				}
-			%>
-			<%
-				if (regFb != null) {
-					msg="";
-			%>
-			<p style='color: green;'>
-				<%=regFb%>
-			</p>
-			<%
-				}
-			%>
+			<h1>TELA DE CADASTRO</h1>
+			<br>
 
-			<form action="LoginSucessful.jsp" method="post">
-				<label for="POST-user">Usuario:</label><br> <input type="text"
-					name="userNameLogin"><br> <label for="POST-user">Senha:</label><br>
-				<input type="password" name="userPassLogin"><br> <br>
-				<button type="submit">Login</button>
+			<form action="RegistrationSucessful.jsp" method="post">
+				<label for="POST-user">Insira o seu nome completo:</label><br>
+				<input type="text" name="userCompNameReg"><br><br>
+				<label for="POST-user">Digite o seu nome de usuario:</label><br>
+				<input type="text" name="userNameReg"><br> <br> 
+				<label for="POST-user">Digite a sua senha:</label><br> 
+				<input type="password" name="userPassReg"><br> <br> 
+				<label for="POST-user">Confirme a sua senha:</label><br> 
+				<input type="password" name="confirmUserPassReg"><br> <br>
+				<button type="submit">Registrar</button>
 			</form>
+			<br> <a href=Login.jsp>Voltar</a>
 		</div>
-		
 
-		
-		<div class="box">
-			<p>
-				<b>Não tem um cadastro? <a href="Register.jsp">Registre-se aqui</a></b>
-			</p>
-		</div>
 	</section>
 
 	<footer>
 		<h2 style="margin: 0">&copy Felipe Marques, 2020.</h2>
 
 		<p style="margin: 12px">
-			<br> 20 anos, estudante de ciencia da computacao, aspirante a
+			<br> 20 anos, estudante de cienncia da computacao, aspirante a
 			desenvolvedor, <br>apaixonado por musica e arte. Atualmente
 			estudando HTML/CSS/JS, Python, JAVA e Java Web. <br> <br> <b>Contato:</b><br>
 			<a href="https://github.com/felipecolor9" id="git_link"

@@ -4,7 +4,10 @@
 <%@ page import = "java.util.List" %>
 <%@ page import = "br.com.felipe.projeto.controller.PostitController" %>
 <%@ page import = "br.com.felipe.projeto.model.Postit" %>
-
+<%
+	String name = (String) session.getAttribute("username");
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +24,13 @@
 
 <body>
 
-    <div id="title_page_index">Bem vindo</div>
+    <div id="title_page_index">Bem vindo, <%= name %></div>
 
     <section class=container>
 
         <div class=box>
             <h1>Adicionar Postit: </h1><br>
-                <form action="AdicionarPostit" method="get">
+                <form action="AddPostit.jsp" method="get">
                     <label for="GET-postit">Nome:</label><br>
                     <input type="text" name="postitName"><br>
                     <label for="GET-postit">Descricao:</label><br>
@@ -40,21 +43,23 @@
                 <table>
                     <thead>
                         <tr>
-                            <th colspan="3">Postits</th>                          
+                            <th colspan="5">Postits</th>                          
                              </tr>   
                              <tr>
-                             		<th id="title1table" colspan="1">#</th>
+                             		<th id="title1table" colspan="1">Codigo Único:</th>
                                     <th id="title2table" colspan="2">Nome: </th>
                                     <th id="title3table" colspan="2">Descricao: </th>
                         </tr>
                     </thead>
                     <tbody>
                         <% 
-                        ArrayList<Postit> postits = PostitController.getInstance().getList();
+                        PostitController pc = new PostitController();
+                        ArrayList<Postit> postits = pc.getUserPosts((Integer) session.getAttribute("userId"));
                            if (postits != null) {
                                for (Postit post : postits) {
                             %>  
                             <tr>
+                            	<td><%= post.getId() %></td>
                                 <td><%= post.getName()%> </td>
                                 <td><%= post.getDesc()%> </td>
                             </tr>
@@ -65,8 +70,9 @@
                     </tbody>
                 </table>
             </section>
+            <a href="Logout.jsp">Deslogar</a>
     <footer>
-        <h2 style="margin: 0">&copy Felipe Marques, 2019.</h2>
+        <h2 style="margin: 0">&copy Felipe Marques, 2020.</h2>
 
         <p style="margin: 12px"> <br> 20 anos, estudante de ciencia da computacao, aspirante a desenvolvedor,
             <br>apaixonado por musica e arte. Atualmente estudando HTML/CSS/JS, Python, JAVA e Java Web.

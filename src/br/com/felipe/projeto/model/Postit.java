@@ -1,7 +1,7 @@
 package br.com.felipe.projeto.model;
 
 public class Postit {
-	private int idPostit;
+	private int id;
 	private int idUser;
 	private String name;
 	private String desc;
@@ -10,10 +10,11 @@ public class Postit {
 
 	}
 
-	public Postit(String name, int idUser,String desc) {
+	public Postit(String name, String desc, int idUser) {
 		this.name = name;
-		this.idUser = idUser;
 		this.desc = desc;
+		this.idUser = idUser;
+		
 	}
 
 	public String getName() {
@@ -32,12 +33,12 @@ public class Postit {
 		this.desc = desc;
 	}
 
-	public int getIdPostit() {
-		return idPostit;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdPostit(int idPostit) {
-		this.idPostit = idPostit;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getIdUser() {

@@ -1,7 +1,8 @@
 package br.com.felipe.projeto.model;
 
 public class User {
-    private int cod;
+    private int id;
+    private String completeName;
     private String username;
     private String password;
 
@@ -9,12 +10,21 @@ public class User {
 
     }
 
-    public User(String usrn, String psw) {
+    public User(String cmpn, String usrn, String psw) {
+    	this.completeName = cmpn;
         this.username = usrn;
         this.password = psw;
     }
 
-    public String getUsername() {
+    public String getCompleteName() {
+		return completeName;
+	}
+
+	public void setCompleteName(String completeName) {
+		this.completeName = completeName;
+	}
+
+	public String getUsername() {
         return username;
     }
 
@@ -29,11 +39,11 @@ public class User {
         this.password = password;
     }
 
-    public int getCod() {
-        return cod;
+    public int getId() {
+        return id;
     }
-    public void setCod(int cod) {
-        this.cod = cod;
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

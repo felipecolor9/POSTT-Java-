@@ -17,12 +17,13 @@ public class UserDAO implements DAO<User> {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("INSERT INTO users(conta_usuario, conta_senha) values(?,?)");
-			stm.setString(1, u.getUsername());
-			stm.setString(2, u.getPassword());
+			stm = con.prepareStatement("INSERT INTO users(nome_completo, usuario_conta, usuario_senha) values(?,?,?)");
+			stm.setString(1, u.getCompleteName());
+			stm.setString(2, u.getUsername());
+			stm.setString(3, u.getPassword());
 			stm.executeUpdate();
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro interno do banco durante adição: ", e);		
+			throw new RuntimeException("Erro interno do banco durante adição: ", e);
 		} finally {
 			ConnectionFactory.closeConnection(con, stm);
 		}
@@ -35,13 +36,14 @@ public class UserDAO implements DAO<User> {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("UPDATE users SET conta_usuario=?, conta_senha=?");
-			stm.setString(1, u.getUsername());
-			stm.setString(2, u.getPassword());
+			stm = con.prepareStatement("UPDATE users SET nome_completo=?, usuario_conta=?, usuario_senha=?");
+			stm.setString(1, u.getCompleteName());
+			stm.setString(2, u.getUsername());
+			stm.setString(3, u.getPassword());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro interno do banco durante modificação: ", e);
-		
+
 		} finally {
 			ConnectionFactory.closeConnection(con, stm);
 		}
@@ -55,11 +57,11 @@ public class UserDAO implements DAO<User> {
 
 		try {
 			stm = con.prepareStatement("DELETE FROM users WHERE id=?");
-			stm.setInt(1,u.getCod());
+			stm.setInt(1, u.getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro interno do banco durante exclusão: ", e);
-		
+
 		} finally {
 			ConnectionFactory.closeConnection(con, stm);
 		}
@@ -79,9 +81,10 @@ public class UserDAO implements DAO<User> {
 
 			while (rs.next()) {
 				User u = new User();
-				u.setCod(rs.getInt("id"));
-				u.setUsername(rs.getString("conta_usuario"));
-				u.setPassword(rs.getString("conta_senha"));
+				u.setId(rs.getInt("id"));
+				u.setCompleteName(rs.getString("nome_completo"));
+				u.setUsername(rs.getString("usuario_conta"));
+				u.setPassword(rs.getString("usuario_senha"));
 				userList.add(u);
 			}
 
@@ -104,15 +107,39 @@ public class UserDAO implements DAO<User> {
 			stm = con.prepareStatement("SELECT FROM users WHERE id=?");
 			stm.setInt(1, id);
 			rs = stm.executeQuery();
-			u.setCod(rs.getInt("id"));
-			u.setUsername(rs.getString("conta_usuario"));
-			u.setPassword(rs.getString("conta_senha"));
+			u.setId(rs.getInt("id"));
+			u.setCompleteName(rs.getString("nome_completo"));
+			u.setUsername(rs.getString("usuario_conta"));
+			u.setPassword(rs.getString("usuario_senha"));
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro interno do banco durante leitura da tabela: ", e);
 		} finally {
 			ConnectionFactory.closeConnection(con, stm, rs);
 		}
 		return u;
+	}
+
+	public int findId(String username) {
+		int id = 0;
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+			stm = con.prepareStatement("SELECT id FROM users WHERE usuario_conta=?");
+			stm.setString(1, username);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				id = rs.getInt("id");
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro interno do banco durante busca por id: ", e);
+		} finally {
+			ConnectionFactory.closeConnection(con, stm, rs);
+		}
+		return id;
 	}
 
 }
